@@ -1,5 +1,6 @@
 FROM alpine:3.9
 
+GIT_URL=""; \
 ARG MYSQL_USER
 ARG MYSQL_PASSWORD
 ARG MYSQL_HOST
@@ -9,7 +10,7 @@ ARG REMOTE_IP
 ARG REMOTE_DIR
 ARG SSH_USERNAME
 ARG SSH_PASS
-COPY backup /etc/periodic/daily
+RUN apk add --no-cache mysql-client openssh-client nano wget
+RUN wget --no-check-certificate -O /etc/periodic/daily/backup https://raw.githubusercontent.com/yurividal/docker-mysqldump/master/backup
 RUN chmod +x /etc/periodic/daily/backup
-RUN apk add --no-cache mysql-client openssh-client nano
 ENTRYPOINT ["crond", "-f"]
