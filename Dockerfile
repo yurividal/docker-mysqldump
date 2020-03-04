@@ -10,5 +10,6 @@ ARG REMOTE_DIR
 ARG SSH_USERNAME
 ARG SSH_PASS
 COPY backup /etc/periodic/daily
+RUN chmod +x /etc/periodic/daily/backup
 RUN apk add --no-cache mysql-client openssh-client nano
 ENTRYPOINT ["crond", "-f"]
