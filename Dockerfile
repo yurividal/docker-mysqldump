@@ -9,6 +9,6 @@ ARG REMOTE_IP
 ARG REMOTE_DIR
 ARG SSH_USERNAME
 ARG SSH_PASS
-
+COPY backup.sh /
 RUN apk add --no-cache mysql-client openssh-client nano
 ENTRYPOINT ["crond", "-f"]
