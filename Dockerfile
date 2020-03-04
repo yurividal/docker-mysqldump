@@ -9,7 +9,7 @@ ARG REMOTE_IP
 ARG REMOTE_DIR
 ARG SSH_USERNAME
 ARG SSH_PASS
+ADD backup /backup
 RUN apk add --no-cache mysql-client openssh-client nano wget
-RUN wget --no-check-certificate -O /etc/periodic/daily/backup https://raw.githubusercontent.com/yurividal/docker-mysqldump/master/backup
 RUN chmod +x /etc/periodic/daily/backup
 ENTRYPOINT ["crond", "-f"]
