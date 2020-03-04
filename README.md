@@ -9,14 +9,23 @@ This container uses a script located in etc/periodic/daily/backup to do:
 MANDATORY VARIABLES:
 
 MYSQL_USER
+
 MYSQL_PASSWORD
+
 MYSQL_HOST
+
 MYSQL_DATABASE
+
 DAYS_TO_KEEP
+
 REMOTE_IP
+
 REMOTE_DIR
+
 SSH_USERNAME
+
 SSH_PASS
+
 
 ##### bin/crontab
 ```
