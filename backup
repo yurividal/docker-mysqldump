@@ -1,0 +1,16 @@
+#!/bin/sh
+
+
+FILENAME=${MYSQL_DATABASE}_$(date +%Y%m%d%H%M).sql.gz
+
+# generating mysqldump
+mysqldump -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE | gzip -9 > /backups/$FILENAME
+
+#copy to remote directory
+sshpass -p $SSH_PASS scp -o StrictHostKeyChecking=no /backups/$FILENAME $SSH_USERNAME@$REMOTE_IP:$REMOTE_DIR
+
+# clean up local
+find /backups/* -mtime +$DAYS_TO_KEEP -exec rm {} \;
+
+# clean up remote
+sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USERNAME@$REMOTE_IP "find $REMOTE_DIR/* -mtime +$DAYS_TO_KEEP -exec rm {} \;"
