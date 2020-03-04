@@ -1,74 +1,22 @@
-## Supported tags and respective Dockerfile links
-latest ([Dockerfile](https://github.com/alexanderschnitzler/docker-mysqldump/blob/master/Dockerfile))
+This container uses a script located in etc/periodic/daily/backup to do:
+  - generate mysqldump of the selected database
+  - tar the dump and save it to /backups
+  - clean backups older than X days
+  - copy the new backup to a remote server using scp
+  - clean the remote server from backups older than X days
 
-The container is based on `alpine:3.9`, thus it is very small.
 
+MANDATORY VARIABLES:
 
-## What is schnitzler/mysqldump?
-
-This container can be used in two ways. It is prepared to run `crond` by default, so you can integrate this container in your `docker-compose.yml` and do regularly backups defined by a `crontab` and backup `script`.
-
-Additionaly you can use this container to create single backups. In this case scroll to the very bottom of this documentation.
-
-## Use as cronjob container
-
-Here is an example configuration for using the container with a crontab.
-
-##### Directory structure:
-```
-.
-├── backup
-├── bin
-│   ├── backup
-│   └── crontab
-└── docker-compose.yml
-```
-
-##### Directory listing of the `bin` folder:
-```
-$ ls -al
-total 16
-drwxrwxr-x 2 whoami whoami 4096 Feb 25 17:51 .
-drwxrwxr-x 4 whoami whoami 4096 Feb 25 17:51 ..
--rwx------ 1 root       root        175 Feb 25 17:51 backup
--rw------- 1 root       root         69 Feb 25 17:51 crontab
-```
-
-Mind the file permissions!  
-`chown 0:0 backup && chmod 700 backup`  
-`chown 0:0 backup && chmod 600 crontab`
-
-##### docker-compose.yml
-```
-version: '2'
-services:
-  db:
-    image: mariadb:10.1
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-      MYSQL_DATABASE: database
-  cron:
-    image: schnitzler/mysqldump
-    restart: always
-    volumes:
-      - ./bin/crontab:/var/spool/cron/crontabs/root
-      - ./bin/backup:/usr/local/bin/backup
-    volumes_from:
-      - backup
-    command: ["-l", "8", "-d", "8"]
-    environment:
-      MYSQL_HOST: db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-      MYSQL_DATABASE: database
-  backup:
-    image: busybox
-    volumes:
-      - ./backup:/backup
-```
+MYSQL_USER
+MYSQL_PASSWORD
+MYSQL_HOST
+MYSQL_DATABASE
+DAYS_TO_KEEP
+REMOTE_IP
+REMOTE_DIR
+SSH_USERNAME
+SSH_PASS
 
 ##### bin/crontab
 ```
