@@ -9,5 +9,5 @@ ARG REMOTE_IP
 ARG REMOTE_DIR
 ARG SSH_USERNAME
 ARG SSH_PASS
-RUN apk add --no-cache mysql-client openssh-client nano sshpass
+RUN apk add --no-cache sshpass mysql-client openssh-client nano
 ENTRYPOINT ["crond", "-f"]
