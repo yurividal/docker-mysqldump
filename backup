@@ -7,8 +7,7 @@ FILENAME=${MYSQL_DATABASE}_$(date +%Y%m%d%H%M)
 rm -R /tmp/backup
 mkdir /tmp/backup
 mysqldump -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE | gzip -9 > /tmp/backup/$FILENAME.sql.gz
-cp -R /teampassfolder-no-edit/includes /tmp/backup/
-cp -R /teampassfolder-no-edit/upload /tmp/backup/
+#cp -R $BACKUP_THIS_FOLDER /tmp/backup/
 tar cvf /backups/$FILENAME.tar /tmp/backup/
 
 #copy to remote directory
