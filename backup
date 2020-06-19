@@ -7,7 +7,13 @@ FILENAME=${MYSQL_DATABASE}_$(date +%Y%m%d%H%M)
 rm -R /tmp/backup
 mkdir /tmp/backup
 mysqldump -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE | gzip -9 > /tmp/backup/$FILENAME.sql.gz
-#cp -R $BACKUP_THIS_FOLDER /tmp/backup/
+if [ -z "$BACKUP_THIS_FOLDER" ]
+then
+      echo "\$BACKUP_THIS_FOLDER is not set. Skipping."
+else
+      cp -R $BACKUP_THIS_FOLDER /tmp/backup/
+fi
+
 tar cvf /backups/$FILENAME.tar /tmp/backup/
 
 #copy to remote directory
