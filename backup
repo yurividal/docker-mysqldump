@@ -6,6 +6,7 @@ FILENAME=${MYSQL_DATABASE}_$(date +%Y%m%d%H%M)
 # generating mysqldump
 rm -R /tmp/backup
 mkdir /tmp/backup
+mkdir -p /backups
 mysqldump -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE | gzip -9 > /tmp/backup/$FILENAME.sql.gz
 if [ -z "$BACKUP_THIS_FOLDER" ]
 then
