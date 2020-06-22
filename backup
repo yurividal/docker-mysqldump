@@ -37,7 +37,7 @@ fi
 tar cvf /backups/$FILENAME.tar /tmp/backup/
 
 #copy to remote directory
-shpass -p $SSH_PASS scp -o StrictHostKeyChecking=no /backups/$FILENAME.tar $SSH_USERNAME@$REMOTE_IP:$REMOTE_DIR
+sshpass -p $SSH_PASS scp -o StrictHostKeyChecking=no /backups/$FILENAME.tar $SSH_USERNAME@$REMOTE_IP:$REMOTE_DIR
 
 if [ -z "$DAYS_TO_KEEP" ]
 then
