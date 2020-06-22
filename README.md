@@ -16,8 +16,6 @@ MYSQL_HOST
 
 MYSQL_DATABASE
 
-DAYS_TO_KEEP
-
 REMOTE_IP
 
 REMOTE_DIR
@@ -26,6 +24,10 @@ SSH_USERNAME
 
 SSH_PASS
 
+
+OPTIONAL VARIABLES:
+BACKUP_THESE: /path/to/folder,path/to/file.extention
+DAYS_TO_KEEP: Optional number of days to keep in backup. If not set, will keep all backups forever.
 
 ##### bin/crontab
 ```
