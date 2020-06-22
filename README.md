@@ -6,44 +6,23 @@ This container uses a script located in etc/periodic/daily/backup to do:
   - clean the remote server from backups older than X days
 
 
-MANDATORY VARIABLES:
-
-MYSQL_USER
-
-MYSQL_PASSWORD
-
-MYSQL_HOST
-
-MYSQL_DATABASE
-
-REMOTE_IP
-
-REMOTE_DIR
-
+#### MANDATORY VARIABLES:
+REMOTE_IP: The IP of the Remobe Backup Server
+REMOTE_DIR: The directory in the remote backup server. Full path. /mnt/UKDataStore/UKFreeNAS/Backups/phpipam
 SSH_USERNAME
-
 SSH_PASS
 
 
-OPTIONAL VARIABLES:
+#### OPTIONAL VARIABLES:
 BACKUP_THESE: /path/to/folder,path/to/file.extention
 DAYS_TO_KEEP: Optional number of days to keep in backup. If not set, will keep all backups forever.
+MYSQL_DATABASE: Name of database that will be backed up as sqldump
+MYSQL_USER: MANDATORY if MYSQL_DATABASE is set
+MYSQL_PASSWORD: MANDATORY if MYSQL_DATABASE is set
+MYSQL_HOST: MANDATORY if MYSQL_DATABASE is set
 
-##### bin/crontab
-```
-#minute hour    day     month   week    command
-0       0       *       *       *       /usr/local/bin/backup
-```
 
-##### bin/backup
-```
-#!/bin/sh
-
-now=$(date +"%s_%Y-%m-%d")
-/usr/bin/mysqldump --opt -h ${MYSQL_HOST} -u ${MYSQL_USER} -p${MYSQL_PASSWORD} ${MYSQL_DATABASE} > "/backup/${now}_${MYSQL_DATABASE}.sql"
-```
-
-## Use as cronjob container (without overwriting bin/crontab)
+## Use as cronjob container
 
 The container has a proper crontab by default:
 
@@ -55,39 +34,4 @@ The container has a proper crontab by default:
 0	2	*	*	*	run-parts /etc/periodic/daily
 0	3	*	*	6	run-parts /etc/periodic/weekly
 0	5	1	*	*	run-parts /etc/periodic/monthly
-```
-
-If these execution times suffice, you can simply mount your backup script into the proper folder:
-
-```
-version: '2'
-services:
-  ...
-  cron:
-    image: schnitzler/mysqldump
-    restart: always
-    volumes:
-      - ./bin/backup:/etc/periodic/daily/backup
-    volumes_from:
-      - backup
-    command: ["-l", "8", "-d", "8"]
-    environment:
-      MYSQL_HOST: db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-      MYSQL_DATABASE: database
-  ...
-```
-
-## Use for a single backup
-
-In this case you simply empty the `entrypoint` and run the mysqlump `command`.
-
-```
-docker run \
-    --rm --entrypoint "" \
-    -v `pwd`/backup:/backup \
-    --link="container:alias" \
-    schnitzler/mysqldump \
-    mysqldump --opt -h alias -u user -p"password" "--result-file=/backup/dumps.sql" database
 ```
