@@ -7,19 +7,19 @@ This container uses a script located in etc/periodic/daily/backup to do:
 
 
 #### MANDATORY VARIABLES:
-REMOTE_IP: The IP of the Remobe Backup Server
-REMOTE_DIR: The directory in the remote backup server. Full path. /mnt/UKDataStore/UKFreeNAS/Backups/phpipam
-SSH_USERNAME
-SSH_PASS
+REMOTE_IP: The IP of the Remobe Backup Server  
+REMOTE_DIR: The directory in the remote backup server. Full path. /mnt/UKDataStore/UKFreeNAS/Backups/phpipam  
+SSH_USERNAME  
+SSH_PASS  
 
 
-#### OPTIONAL VARIABLES:
-BACKUP_THESE: /path/to/folder,path/to/file.extention
-DAYS_TO_KEEP: Optional number of days to keep in backup. If not set, will keep all backups forever.
-MYSQL_DATABASE: Name of database that will be backed up as sqldump
-MYSQL_USER: MANDATORY if MYSQL_DATABASE is set
-MYSQL_PASSWORD: MANDATORY if MYSQL_DATABASE is set
-MYSQL_HOST: MANDATORY if MYSQL_DATABASE is set
+#### OPTIONAL VARIABLES:  
+BACKUP_THESE: /path/to/folder,path/to/file.extention  
+DAYS_TO_KEEP: Optional number of days to keep in backup. If not set, will keep all backups forever.  
+MYSQL_DATABASE: Name of database that will be backed up as sqldump  
+MYSQL_USER: MANDATORY if MYSQL_DATABASE is set  
+MYSQL_PASSWORD: MANDATORY if MYSQL_DATABASE is set  
+MYSQL_HOST: MANDATORY if MYSQL_DATABASE is set  
 
 
 ## Use as cronjob container
