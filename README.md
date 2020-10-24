@@ -1,6 +1,6 @@
 This container uses a script located in etc/periodic/daily/backup to do:
-  - generate mysqldump of the selected database
-  - tar the dump and save it to /backups
+  - generate mysqldump of the selected database and files/folders
+  - tar the dump and the files and save it to /backups
   - clean backups older than X days
   - copy the new backup to a remote server using scp
   - clean the remote server from backups older than X days
