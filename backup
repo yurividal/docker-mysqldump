@@ -37,7 +37,13 @@ fi
 tar cvf /backups/$FILENAME.tar /tmp/backup/
 
 #copy to remote directory
-sshpass -p $SSH_PASS scp -o StrictHostKeyChecking=no /backups/$FILENAME.tar $SSH_USERNAME@$REMOTE_IP:$REMOTE_DIR
+if [ -z "$REMOTE_IP" ]
+then
+    echo "\$REMOTE_IP is not set. Skipping."
+else
+    sshpass -p $SSH_PASS scp -o StrictHostKeyChecking=no /backups/$FILENAME.tar $SSH_USERNAME@$REMOTE_IP:$REMOTE_DIR
+fi
+
 
 if [ -z "$DAYS_TO_KEEP" ]
 then
@@ -47,5 +53,11 @@ else
     find /backups/* -mtime +$DAYS_TO_KEEP -exec rm {} \;
 
     # clean up remote
-    sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USERNAME@$REMOTE_IP "find $REMOTE_DIR/* -mtime +$DAYS_TO_KEEP -exec rm {} \;"
+    if [ -z "$REMOTE_IP" ]
+    then
+        echo "\$REMOTE_IP is not set. Skipping."
+    else
+        sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USERNAME@$REMOTE_IP "find $REMOTE_DIR/* -mtime +$DAYS_TO_KEEP -exec rm {} \;"
+    fi
+
 fi

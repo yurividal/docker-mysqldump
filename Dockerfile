@@ -9,7 +9,7 @@ ARG REMOTE_IP
 ARG REMOTE_DIR
 ARG SSH_USERNAME
 ARG SSH_PASS
-ARG FREQUENCY=daily
+ARG FREQUENCY
 ADD backup /etc/periodic/${FREQUENCY}
 RUN chmod +x /etc/periodic/${FREQUENCY}/backup
 RUN apk add --no-cache sshpass mysql-client openssh-client nano
