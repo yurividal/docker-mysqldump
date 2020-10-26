@@ -13,4 +13,4 @@ ENV FREQUENCY=daily
 ADD backup /bkpscript
 RUN chmod +x /bkpscript/backup
 RUN apk add --no-cache sshpass mysql-client openssh-client nano
-ENTRYPOINT ln -s /backup /etc/periodic/${FREQUENCY}/backup && crond -f
+ENTRYPOINT ln -s /bkpscript/backup /etc/periodic/${FREQUENCY}/backup && crond -f
