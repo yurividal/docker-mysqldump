@@ -11,6 +11,7 @@ ARG SSH_USERNAME
 ARG SSH_PASS
 ARG FREQUENCY
 ENV FREQUENCY=${FREQUENCY}
+RUN test ! -z "$FREQUENCY" && echo "var is set" || echo "var is not set"
 ADD backup /etc/periodic/${FREQUENCY}
 RUN chmod +x /etc/periodic/${FREQUENCY}/backup
 RUN apk add --no-cache sshpass mysql-client openssh-client nano

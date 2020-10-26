@@ -8,7 +8,6 @@ else
     FILENAME=${MYSQL_DATABASE}_$(date +%Y%m%d%H%M)
 fi
 
-
 #preparing the environment
 rm -fR /tmp/backup
 mkdir /tmp/backup
