@@ -9,13 +9,7 @@ This container uses a script located in etc/periodic/\<frequency\> to do:
 
 #### HOW TO USE
 
-Pull the image you need:  
-  
-Daily: yurividal/sqldumpsshcron:daily  
-Weekly: yurividal/sqldumpsshcron:weekly  
-Monthly: yurividal/sqldumpsshcron:monthly  
-
-Using "latest" will pull the "daily" version. 
+Pull the image yurividal/sqldumpsshcron:latest
 
 
 #### MANDATORY VARIABLES:
@@ -27,9 +21,9 @@ VARIABLE
 
 |VARIABLE|DESCRIPTION|EXAMPLE|
 |--------|:---------|:--------|
-|**FREQUENCY**|How often backup should run. Accepted:15min,hourly,daily,weekly,monthly|Default: daily|
+|**FREQUENCY**|How often backup should run. Default: daily. Accepted:15min,hourly,daily,weekly,monthly|weekly|
 |**BACKUP_THESE**|The Files and Folders that should be included in the bkp|/path/to/folder,path/to/file.extention|  
-|**DAYS_TO_KEEP**|Optional number of days to keep in backup. If not set, will keep all backups forever.| 30 |  
+|**DAYS_TO_KEEP**|Optional number of **days** to keep in backup. If not set, will keep all backups forever.| 30 |  
 |**MYSQL_DATABASE**|Name of database that will be backed up as sqldump|my_table|  
 |**MYSQL_USER**|MANDATORY if MYSQL_DATABASE is set|root|  
 |**MYSQL_PASSWORD**|MANDATORY if MYSQL_DATABASE is set|MyPassword|  
