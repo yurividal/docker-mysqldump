@@ -1,10 +1,3 @@
-#### HOW TO USE
-
-Pull the image you need:
-Daily: yurividal/sqldumpsshcron:daily
-Weekly: yurividal/sqldumpsshcron:weekly
-Monthly: yurividal/sqldumpsshcron:monthly
-
 This container uses a script located in etc/periodic/ to do:
 
 - generate mysqldump of the selected database and files/folders
@@ -13,22 +6,34 @@ This container uses a script located in etc/periodic/ to do:
 - copy the new backup to a remote server using scp
 - clean the remote server from backups older than X days
 
+
+#### HOW TO USE
+
+Pull the image you need:  
+  
+Daily: yurividal/sqldumpsshcron:daily  
+Weekly: yurividal/sqldumpsshcron:weekly  
+Monthly: yurividal/sqldumpsshcron:monthly  
+
+Using "latest" will pull the "daily" version. 
+
+
 #### MANDATORY VARIABLES:
 
 None
 
 #### OPTIONAL VARIABLES:
 
-BACKUP_THESE: /path/to/folder,path/to/file.extention  
-DAYS_TO_KEEP: Optional number of days to keep in backup. If not set, will keep all backups forever.  
-MYSQL_DATABASE: Name of database that will be backed up as sqldump  
-MYSQL_USER: MANDATORY if MYSQL_DATABASE is set  
-MYSQL_PASSWORD: MANDATORY if MYSQL_DATABASE is set  
-MYSQL_HOST: MANDATORY if MYSQL_DATABASE is set
-REMOTE_IP: The IP of the Remobe Backup Server  
-REMOTE_DIR: MANDATORY if REMOTE_IP is set. The directory in the remote backup server. Full path. /mnt/UKDataStore/UKFreeNAS/Backups/phpipam  
-SSH_USERNAME: MANDATORY if REMOTE_IP is set.  
-SSH_PASS: MANDATORY if REMOTE_IP is set.
+**BACKUP_THESE**: /path/to/folder,path/to/file.extention  
+**DAYS_TO_KEEP**: Optional number of days to keep in backup. If not set, will keep all backups forever.  
+**MYSQL_DATABASE**: Name of database that will be backed up as sqldump  
+**MYSQL_USER**: MANDATORY if MYSQL_DATABASE is set  
+**MYSQL_PASSWORD**: MANDATORY if MYSQL_DATABASE is set  
+**MYSQL_HOST**: MANDATORY if MYSQL_DATABASE is set
+**REMOTE_IP**: The IP of the Remobe Backup Server  
+**REMOTE_DIR**: MANDATORY if REMOTE_IP is set. The directory in the remote backup server. Full path. /mnt/UKDataStore/UKFreeNAS/Backups/phpipam  
+**SSH_USERNAME**: MANDATORY if REMOTE_IP is set.  
+**SSH_PASS**: MANDATORY if REMOTE_IP is set.
 
 ## Predefined Times:
 
