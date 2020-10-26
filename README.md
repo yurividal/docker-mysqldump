@@ -1,4 +1,4 @@
-This container uses a script located in etc/periodic/ to do:
+This container uses a script located in etc/periodic/\<frequency\> to do:
 
 - generate mysqldump of the selected database and files/folders
 - tar the dump and the files and save it to /backups
@@ -23,17 +23,20 @@ Using "latest" will pull the "daily" version.
 None
 
 #### OPTIONAL VARIABLES:
+VARIABLE
 
-**BACKUP_THESE**: /path/to/folder,path/to/file.extention  
-**DAYS_TO_KEEP**: Optional number of days to keep in backup. If not set, will keep all backups forever.  
-**MYSQL_DATABASE**: Name of database that will be backed up as sqldump  
-**MYSQL_USER**: MANDATORY if MYSQL_DATABASE is set  
-**MYSQL_PASSWORD**: MANDATORY if MYSQL_DATABASE is set  
-**MYSQL_HOST**: MANDATORY if MYSQL_DATABASE is set
-**REMOTE_IP**: The IP of the Remobe Backup Server  
-**REMOTE_DIR**: MANDATORY if REMOTE_IP is set. The directory in the remote backup server. Full path. /mnt/UKDataStore/UKFreeNAS/Backups/phpipam  
-**SSH_USERNAME**: MANDATORY if REMOTE_IP is set.  
-**SSH_PASS**: MANDATORY if REMOTE_IP is set.
+|VARIABLE|DESCRIPTION|EXAMPLE|
+|--------|:---------|:--------|
+|**BACKUP_THESE**|The Files and Folders that should be included in the bkp|/path/to/folder,path/to/file.extention|  
+|**DAYS_TO_KEEP**|Optional number of days to keep in backup. If not set, will keep all backups forever.| 30 |  
+|**MYSQL_DATABASE**|Name of database that will be backed up as sqldump|my_table|  
+|**MYSQL_USER**|MANDATORY if MYSQL_DATABASE is set|root|  
+|**MYSQL_PASSWORD**|MANDATORY if MYSQL_DATABASE is set|MyPassword|  
+|**MYSQL_HOST**|MANDATORY if MYSQL_DATABASE is set|mariadb_container|  
+|**REMOTE_IP**|The IP of the Remobe Backup Server|192.168.0.147|  
+|**REMOTE_DIR**|MANDATORY if REMOTE_IP is set. The directory in the remote backup server. Full path.|/mnt/UKDataStore/UKFreeNAS/Backups/phpipam|  
+|**SSH_USERNAME**|MANDATORY if REMOTE_IP is set|user|  
+|**SSH_PASS**|MANDATORY if REMOTE_IP is set.|myShhPass|
 
 ## Predefined Times:
 
