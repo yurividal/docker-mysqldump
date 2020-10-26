@@ -10,6 +10,7 @@ ARG REMOTE_DIR
 ARG SSH_USERNAME
 ARG SSH_PASS
 ENV FREQUENCY=daily
+RUN mkdir /bkpscript
 ADD backup /bkpscript
 RUN chmod +x /bkpscript/backup
 RUN apk add --no-cache sshpass mysql-client openssh-client nano

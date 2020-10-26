@@ -27,6 +27,7 @@ VARIABLE
 
 |VARIABLE|DESCRIPTION|EXAMPLE|
 |--------|:---------|:--------|
+|**FREQUENCY**|How often backup should run. Accepted:15min,hourly,daily,weekly,monthly|Default: daily|
 |**BACKUP_THESE**|The Files and Folders that should be included in the bkp|/path/to/folder,path/to/file.extention|  
 |**DAYS_TO_KEEP**|Optional number of days to keep in backup. If not set, will keep all backups forever.| 30 |  
 |**MYSQL_DATABASE**|Name of database that will be backed up as sqldump|my_table|  
