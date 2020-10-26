@@ -9,10 +9,7 @@ ARG REMOTE_IP
 ARG REMOTE_DIR
 ARG SSH_USERNAME
 ARG SSH_PASS
-ARG FREQUENCY
-ENV FREQUENCY=${FREQUENCY}
-RUN test ! -z "$FREQUENCY" && echo "var is set" || echo "var is not set"
-ADD backup /etc/periodic/${FREQUENCY}
-RUN chmod +x /etc/periodic/${FREQUENCY}/backup
+ADD backup /etc/periodic/daily
+RUN chmod +x /etc/periodic/daily/backup
 RUN apk add --no-cache sshpass mysql-client openssh-client nano
 ENTRYPOINT ["crond", "-f"]

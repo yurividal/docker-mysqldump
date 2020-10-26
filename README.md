@@ -23,9 +23,9 @@ REMOTE_DIR: MANDATORY if REMOTE_IP is set. The directory in the remote backup se
 SSH_USERNAME: MANDATORY if REMOTE_IP is set.  
 SSH_PASS: MANDATORY if REMOTE_IP is set.
 
-## Use as cronjob container
+## Predefined Times:
 
-The container has a proper crontab by default:
+The container has the following crontab by default:
 
 ```
 # do daily/weekly/monthly maintenance
