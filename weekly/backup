@@ -1,0 +1,61 @@
+#!/bin/sh
+
+if [ -z "$MYSQL_DATABASE" ]
+then
+    FILENAME=$(date +%Y%m%d%H%M)
+else
+    FILENAME=${MYSQL_DATABASE}_$(date +%Y%m%d%H%M)
+fi
+
+#preparing the environment
+rm -fR /tmp/backup
+mkdir /tmp/backup
+mkdir -p /backups
+
+# generating mysqldump and putting it in /tmp/backup
+if [ -z "$MYSQL_DATABASE" ]
+then
+    echo "\$MYSQL_DATABASE is not set. Skipping."
+else
+    mysqldump -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE | gzip -9 > /tmp/backup/$FILENAME.sql.gz
+fi
+
+#copying backed up files and folders to /tmp/backup
+if [ -z "$BACKUP_THESE" ]
+then
+    echo "\$BACKUP_THESE is not set. Skipping."
+else
+    echo ${BACKUP_THESE} | sed -n 1'p' | tr ',' '\n' | while read directory_path; do
+        #echo ${directory_path}
+        cp -R ${directory_path} /tmp/backup/
+        done
+fi
+
+#compressing all in a single tar
+tar cvf /backups/$FILENAME.tar /tmp/backup/
+
+#copy to remote directory
+if [ -z "$REMOTE_IP" ]
+then
+    echo "\$REMOTE_IP is not set. Skipping."
+else
+    sshpass -p $SSH_PASS scp -o StrictHostKeyChecking=no /backups/$FILENAME.tar $SSH_USERNAME@$REMOTE_IP:$REMOTE_DIR
+fi
+
+
+if [ -z "$DAYS_TO_KEEP" ]
+then
+    echo "\$$DAYS_TO_KEEP is not set. Skipping."
+else
+    # clean up local
+    find /backups/* -mtime +$DAYS_TO_KEEP -exec rm {} \;
+
+    # clean up remote
+    if [ -z "$REMOTE_IP" ]
+    then
+        echo "\$REMOTE_IP is not set. Skipping."
+    else
+        sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USERNAME@$REMOTE_IP "find $REMOTE_DIR/* -mtime +$DAYS_TO_KEEP -exec rm {} \;"
+    fi
+
+fi
