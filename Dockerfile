@@ -9,7 +9,7 @@ ARG REMOTE_IP
 ARG REMOTE_DIR
 ARG SSH_USERNAME
 ARG SSH_PASS
-ADD backup /etc/periodic/weekly
-RUN chmod +x /etc/periodic/weekly/backup
+ADD backup /etc/periodic/montly
+RUN chmod +x /etc/periodic/montly/backup
 RUN apk add --no-cache sshpass mysql-client openssh-client nano
 ENTRYPOINT ["crond", "-f"]

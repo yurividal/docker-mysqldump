@@ -1,3 +1,10 @@
+#### HOW TO USE
+
+Pull the image you need:
+Daily: yurividal/sqldumpsshcron:daily
+Weekly: yurividal/sqldumpsshcron:weekly
+Monthly: yurividal/sqldumpsshcron:monthly
+
 This container uses a script located in etc/periodic/ to do:
 
 - generate mysqldump of the selected database and files/folders
@@ -8,7 +15,7 @@ This container uses a script located in etc/periodic/ to do:
 
 #### MANDATORY VARIABLES:
 
-FREQUENCY: (15min, hourly, daily, weekly, monthly)
+None
 
 #### OPTIONAL VARIABLES:
 
