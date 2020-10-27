@@ -42,20 +42,37 @@ else
     sshpass -p $SSH_PASS scp -o StrictHostKeyChecking=no /backups/$FILENAME.tar $SSH_USERNAME@$REMOTE_IP:$REMOTE_DIR
 fi
 
-
-if [ -z "$DAYS_TO_KEEP" ]
+## BACKWARD COMPATIBILITY
+if [ -z "$BACKUPS_TO_KEEP" ]
 then
-    echo "\$$DAYS_TO_KEEP is not set. Skipping."
+    echo "BACKUPS_TO_KEEP not set. Checking DAYS_TO_KEEP"
+    #check DAYS_TO_KEEP
+    if [ -z "$DAYS_TO_KEEP" ]
+    then
+    echo "No KEEP variables detected. WIll not delete anyting"
+    else
+    BACKUPS_TO_KEEP=$DAYS_TO_KEEP
+    echo "Will keep the latest $BACKUPS_TO_KEEP"
+    fi
+else
+    :
+fi
+
+## CLEANING UP
+if [ -z "$BACKUPS_TO_KEEP" ]
+then
+    echo "\$$BACKUPS_TO_KEEP is not set. Skipping."
 else
     # clean up local
-    find /backups/* -mtime +$DAYS_TO_KEEP -exec rm {} \;
-
+    BACKUPS_TO_KEEP=$((BACKUPS_TO_KEEP+1))
+    ls -td /backups/*.tar | tail -n +$BACKUPS_TO_KEEP | xargs rm
+    
     # clean up remote
     if [ -z "$REMOTE_IP" ]
     then
         echo "\$REMOTE_IP is not set. Skipping."
     else
-        sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USERNAME@$REMOTE_IP "find $REMOTE_DIR/* -mtime +$DAYS_TO_KEEP -exec rm {} \;"
-    fi
+        sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USERNAME@$REMOTE_IP "ls -td $REMOTE_DIR/*.tar | tail -n +$BACKUPS_TO_KEEP | xargs rm"
+        fi
 
 fi
